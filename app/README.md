@@ -17,7 +17,6 @@
 ```
 StepCast/
   Install StepCast.bat / Start StepCast.bat       Windows install / start
-  install-linux-mac.sh / start-linux-mac.sh       Linux & macOS (manage/edit; no recording)
   READ ME FIRST.pdf                               teacher guide
   lessons/            built lessons (one folder each: index.html, video.mp4, step_guide.docx, audio/, assets/)
   recordings/         raw recordings (capture.mkv, events.jsonl, meta.json)

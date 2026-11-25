@@ -14,13 +14,10 @@ While the teacher works at normal speed, StepCast records the screen together wi
 
 Teachers can then edit step titles and callouts and record narration for each step in the browser. A lesson is a folder of plain files that works offline, from a USB stick or network share, or inside a VLE such as Moodle (upload as a *File* resource and set `index.html` as the main file). No plugin or server is needed.
 
-## Platform support
+## Requirements
 
-| Task | Windows 10 (2004+) / 11 | Linux / macOS |
-| --- | --- | --- |
-| Record | Yes (developed and tested) | No (recording uses Windows UI Automation) |
-| Build, edit and update lessons | Yes (developed and tested) | Build pipeline tested on Linux from source (see below); installer scripts **not yet verified** |
-| Play lessons | Any modern browser | Any modern browser |
+- **Teachers** (recording, building and editing lessons): **Windows 10 (version 2004 or later) or Windows 11.** StepCast is a Windows application: recording relies on Windows UI Automation and Windows screen-capture features.
+- **Students** (watching lessons): any device with a modern web browser.
 
 ## Install (Windows, for teachers)
 
@@ -30,9 +27,9 @@ Teachers can then edit step titles and callouts and record narration for each st
 
 The illustrated teacher guide is **`READ ME FIRST.pdf`**.
 
-## Try the build pipeline without Windows (for reviewers and developers)
+## Testing the lesson builder from source (for reviewers and developers)
 
-You can build a lesson on any OS from a synthetic recording that imitates a Word demonstration. You need Python 3.10+ and FFmpeg/ffprobe on your `PATH`.
+The lesson builder (`build_lesson.py`) is plain Python and can be run from source, including by reviewers who do not have Windows, using a synthetic recording that imitates a Word demonstration. You need Python 3.10+ and FFmpeg/ffprobe on your `PATH`.
 
 ```bash
 pip install python-docx pillow
@@ -46,7 +43,6 @@ This produces `index.html`, `video.mp4`, `lesson.json` and `step_guide.docx` in 
 
 ```
 Install StepCast.bat, Start StepCast.bat        Windows install / start
-install-linux-mac.sh, start-linux-mac.sh        Linux & macOS (lesson management; not yet verified)
 READ ME FIRST.pdf                               teacher guide
 lessons/, recordings/                           created on use (kept out of git)
 app/
