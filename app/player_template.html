@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<!--
+  StepCast interactive lesson player
+  Author:    Dr Sivakumar Manickam <skumar@staff.odc.edu.om>, Oman Dental College
+  Credits:   Conceived, designed, tested and led by Dr Sivakumar Manickam.
+             Developed with the help of Claude (Anthropic) as an AI coding assistant.
+  Version:   1.3   (c) 2026 Dr Sivakumar Manickam
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Dr Sivakumar Manickam (skumar@staff.odc.edu.om)">
+<meta name="generator" content="StepCast 1.3 - by Dr Sivakumar Manickam, developed with the help of Claude (Anthropic)">
+<meta name="copyright" content="(c) 2026 Dr Sivakumar Manickam. MIT License">
+<title>__LESSON_TITLE__</title>
+<style>
+  :root{
+    --accent:#0f766e; --accent-soft:#e6f4f2; --ink:#1c2430; --muted:#667085;
+    --line:#e4e7ec; --bg:#f5f6f8; --card:#fff; --done:#16a34a; --hl:#f59e0b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font:15px/1.45 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  button{font:inherit;color:inherit;cursor:pointer}
+  .topbar{display:flex;align-items:center;gap:14px;padding:10px 22px;background:var(--accent);color:#fff;min-height:56px}
+  .brand{display:flex;align-items:center;gap:10px;font-size:13.5px;white-space:nowrap}
+  .brand img{height:26px;width:26px;border-radius:6px}
+  .brand b{font-size:15.5px;letter-spacing:.01em}
+  .topbar .sep{width:1px;height:18px;background:#ffffff66;margin:0 2px}
+  .topbar .sep.big{height:28px;background:#ffffff55}
+  .brand .who{opacity:.9}
+  .topbar .t{flex:1;min-width:0}
+  .topbar h1{font-size:18px;margin:0;font-weight:650;outline:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar p{margin:1px 0 0;font-size:12.5px;opacity:.85;outline:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar p:empty{display:none}
+  .prog{display:flex;align-items:center;gap:10px;font-size:13px;color:#ffffffd9;white-space:nowrap}
+  .prog .bar{width:120px;height:7px;border-radius:8px;background:#ffffff40;overflow:hidden}
+  .prog .bar i{display:block;height:100%;width:0;background:#fff;transition:width .3s}
+  .gbtn{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:9px;border:1px solid #ffffffb0;color:#fff;
+        text-decoration:none;font-weight:600;font-size:13.5px;white-space:nowrap;background:#ffffff14}
+  .gbtn:hover{background:#ffffff2e}
+  .gbtn svg{width:16px;height:16px;fill:currentColor}
+  .editing .topbar [contenteditable=true]{color:var(--ink)}
+  main{display:grid;grid-template-columns:300px 1fr;gap:18px;padding:18px 22px;max-width:1600px;margin:0 auto}
+  aside{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;max-height:calc(100vh - 150px);position:sticky;top:18px;align-self:start}
+  aside h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0;padding:12px 16px;border-bottom:1px solid var(--line)}
+  ol.steps{list-style:none;margin:0;padding:6px;overflow:auto;flex:1}
+  .stepnav{display:flex;align-items:center;gap:6px;padding:10px 12px;border-top:1px solid var(--line);background:#fff}
+  .stepnav button{width:38px;height:34px;border:1px solid var(--line);border-radius:8px;background:#fff;display:grid;place-items:center;color:var(--ink)}
+  .stepnav button:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+  .stepnav button:disabled{opacity:.35;pointer-events:none}
+  .stepnav svg{width:18px;height:18px;fill:currentColor}
+  .stepnav span{flex:1;text-align:center;font-size:13px;font-weight:600;color:var(--ink)}
+  .asidefoot{border-top:1px solid var(--line);padding:12px 16px 14px;background:#fafbfc}
+  .af-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:7px}
+  .af-row #aftext{color:var(--ink);font-weight:600}
+  .af-bar{height:7px;border-radius:7px;background:var(--line);overflow:hidden}
+  .af-bar i{display:block;height:100%;width:0;background:var(--done);transition:width .3s}
+  .step{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;border-left:3px solid transparent;border-radius:8px;padding:8px;margin:2px 0}
+  .step:hover{background:#f2f4f7}
+  .step.active{background:var(--accent-soft);border-left-color:var(--accent)}
+  .step .n{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:650;background:#eef0f3;color:#475467}
+  .step.active .n{background:var(--accent);color:#fff}
+  .step.done .n{background:var(--done);color:#fff}
+  .step .tx{flex:1;min-width:0}
+  .step .tt{font-weight:560;font-size:14px;outline:none;word-break:break-word}
+  .step .tools{display:none;gap:4px;margin-top:6px}
+  .editing .step.active .tools{display:flex;flex-wrap:wrap}
+  .tools button{font-size:11.5px;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:#fff;white-space:nowrap}
+  .coedit{flex-basis:100%;margin-top:4px}
+  .coedit .cl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:2px 0 3px}
+  .coedit input{width:100%;font:13px inherit;font-family:inherit;padding:5px 8px;border:1px solid #f5d77a;background:#fffbea;border-radius:6px;margin-bottom:4px}
+  .coedit input:focus{outline:2px solid var(--accent);outline-offset:0}
+  .tools button:hover{border-color:var(--accent);color:var(--accent)}
+
+  section.player{min-width:0}
+  .frame{background:#0b0f14;border-radius:12px;overflow:hidden;position:relative;user-select:none}
+  .frame:fullscreen{display:flex;flex-direction:column;justify-content:center;border-radius:0}
+  .stage{position:relative;width:100%;overflow:hidden;background:#000;cursor:pointer}
+  .frame:fullscreen .stage{max-height:calc(100vh - 64px);width:auto;margin:0 auto}
+  .cam{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+  .cam video{width:100%;height:100%;display:block}
+  .fx{position:absolute;inset:0;pointer-events:none}
+  .ring{position:absolute;border:3px solid var(--hl);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 2px rgba(0,0,0,.25)}
+  .cosvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;filter:drop-shadow(0 6px 10px rgba(0,0,0,.28))}
+  .callout{position:absolute;left:0;top:0;display:flex;align-items:center;gap:9px;max-width:46%;padding:10px 16px 10px 13px;
+           --cb:var(--accent);background:var(--cb);color:#fff;border-radius:14px;
+           font:600 clamp(13px,1.45vw,19px)/1.25 "Segoe UI",system-ui,sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.32);
+           pointer-events:none;opacity:0;transition:opacity .18s;white-space:nowrap}
+  .callout.on{opacity:1}
+  .editing .callout{pointer-events:auto;cursor:text;outline:2px dashed #f5d77a;outline-offset:2px}
+  .callout .ico{flex:0 0 auto;width:1.35em;height:1.35em;color:#fff;opacity:.9}
+  .callout .ico svg{width:100%;height:100%;display:block}
+  .callout .ct{overflow:hidden;text-overflow:ellipsis}
+  .callout .ty{font-family:Consolas,"Cascadia Mono",monospace;font-weight:600;color:#fff;background:rgba(255,255,255,.16);padding:1px 7px;border-radius:6px}
+  .callout .car{display:inline-block;width:.5em;border-bottom:2px solid currentColor;animation:blink 1s steps(1) infinite}
+  .callout.k-rclick{--cb:#2563eb}
+  .callout.k-drag{--cb:#7c3aed}
+  .stepban{position:absolute;left:18px;top:16px;max-width:70%;background:rgba(15,20,28,.86);color:#fff;
+           padding:9px 16px 9px 9px;border-radius:12px;font:600 clamp(13px,1.4vw,18px) "Segoe UI",system-ui,sans-serif;
+           display:flex;align-items:center;gap:10px;opacity:0;transform:translateY(-6px);transition:opacity .3s,transform .3s;
+           pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+  .stepban.on{opacity:1;transform:none}
+  .stepban .sb-n{background:var(--accent);border-radius:8px;padding:3px 9px;font-size:.82em;white-space:nowrap}
+  .pill{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);max-width:80%;background:rgba(15,20,28,.86);color:#fff;
+        padding:10px 18px;border-radius:12px;font-size:clamp(14px,2vw,22px);font-family:Consolas,"Cascadia Mono",monospace;
+        white-space:pre;overflow:hidden;text-overflow:ellipsis;pointer-events:none;opacity:0;transition:opacity .2s;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+  .pill.on{opacity:1}
+  .pill .lbl{font-family:"Segoe UI",system-ui,sans-serif;font-size:.62em;opacity:.7;display:block;margin-bottom:2px;letter-spacing:.04em;text-transform:uppercase}
+  .pill .car{display:inline-block;width:.55em;border-bottom:2px solid #fff;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .keys{position:absolute;right:3%;bottom:6%;display:flex;gap:6px;align-items:center;pointer-events:none;opacity:0;transition:opacity .2s;
+        background:rgba(15,20,28,.82);padding:10px 12px 12px;border-radius:12px}
+  .keys.on{opacity:1}
+  .keys kbd{background:#fff;color:#111;border-radius:8px;padding:6px 12px;font:600 clamp(13px,1.6vw,20px) "Segoe UI",system-ui,sans-serif;
+            box-shadow:0 3px 0 #9aa3af,0 6px 18px rgba(0,0,0,.35)}
+  .keys span{color:#fff;font-weight:700;text-shadow:0 1px 3px #000}
+  .overlay{position:absolute;inset:0;display:none;place-items:center;background:rgba(8,12,18,.72);color:#fff;text-align:center;
+           backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .overlay.on{display:grid}
+  .overlay .box{max-width:80%}
+  .overlay h3{margin:0 0 6px;font-size:clamp(16px,2.4vw,26px)}
+  .overlay p{margin:0 0 16px;opacity:.85}
+  .overlay .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btn{border:0;border-radius:10px;padding:10px 18px;font-weight:600;background:#fff;color:#111}
+  .btn.pri{background:var(--accent);color:#fff}
+
+  .controls{display:flex;align-items:center;gap:6px;padding:8px 10px;background:#121821;color:#e5e7eb}
+  .controls .ic{width:36px;height:36px;border:0;border-radius:8px;background:transparent;display:grid;place-items:center}
+  .controls .ic:hover{background:#243042}
+  .controls .ic svg{width:20px;height:20px;fill:currentColor}
+  .controls .ic.on{color:#5eead4}
+  .tl{flex:1;height:22px;position:relative;cursor:pointer;margin:0 8px}
+  .tl .segs{position:absolute;left:0;right:0;top:8px;height:6px;display:flex;gap:2px}
+  .tl .seg{background:#3a4556;border-radius:3px;height:100%;position:relative;overflow:hidden}
+  .tl .seg i{position:absolute;inset:0;width:0;background:#5eead4}
+  .tl .seg.cur{background:#4b5a70}
+  .tl:hover .segs{top:7px;height:8px}
+  .tl .tip{position:absolute;bottom:24px;transform:translateX(-50%);background:#fff;color:#111;font-size:12px;padding:3px 8px;border-radius:6px;white-space:nowrap;display:none;pointer-events:none}
+  .time{font:12.5px Consolas,monospace;color:#cbd5e1;min-width:92px;text-align:center}
+  .controls select{background:#1e2733;color:#e5e7eb;border:1px solid #334155;border-radius:6px;padding:4px}
+
+  .now{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:14px;padding:14px 18px;display:flex;gap:14px;align-items:flex-start}
+  .now .big{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:20px;white-space:nowrap}
+  .now h3{margin:0;font-size:18px}
+  .now p{margin:4px 0 0;color:var(--muted)}
+  .hint{color:var(--muted);font-size:12.5px;margin-top:10px}
+  .hint kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:#fff;font-size:11.5px}
+  .editbar{display:none;gap:8px;align-items:center;margin-top:12px;padding:10px 14px;border:1px dashed var(--accent);border-radius:10px;background:#fff}
+  .editing .editbar{display:flex;flex-wrap:wrap}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:50;
+         background:#111827;color:#fff;padding:12px 20px;border-radius:12px;font-weight:600;font-size:14px;
+         box-shadow:0 10px 30px rgba(0,0,0,.3);transition:opacity .2s,transform .2s;max-width:90vw;text-align:center}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+  .toast.ok{background:#065f46}.toast.err{background:#991b1b}
+  .editing [contenteditable=true]{background:#fffbea;border-radius:4px;box-shadow:0 0 0 1px #f5d77a}
+  .editbar .btn{padding:6px 12px;border:1px solid var(--line)}
+  .err{padding:40px;color:#fff;text-align:center}
+  .btn.ghost{background:transparent;color:#fff;border:1px solid #ffffff99}
+  .step .au{flex:0 0 auto;width:16px;height:16px;color:var(--accent);opacity:.8}
+  .step .au svg{width:100%;height:100%;fill:currentColor}
+  .recbar{position:absolute;left:50%;top:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;
+          background:#fff;color:var(--ink);padding:8px 10px 8px 14px;border-radius:30px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-weight:600;font-size:14px}
+  .recbar.on{display:flex}
+  .recbar span{white-space:nowrap}
+  .recbar .dot{width:11px;height:11px;border-radius:50%;background:#dc2626;animation:blink 1s steps(1) infinite}
+  .recbar button{border:0;border-radius:20px;background:#dc2626;color:#fff;font-weight:700;padding:6px 14px}
+  .tools .on{background:#fee2e2;border-color:#fca5a5}
+  .callout.cap{--cb:rgba(15,20,28,.9);border-radius:12px;padding:10px 18px}
+  .callout.cap .ico{color:#5eead4}
+  .callout.cap .ty{background:transparent;color:#fff;padding:0}
+  .callout kbd{display:inline-block;background:#fff;color:#111;border-radius:6px;padding:1px 9px;margin:0 2px;
+               font:700 .92em "Segoe UI",system-ui,sans-serif;box-shadow:0 2px 0 #9aa3af}
+  .callout .plus{opacity:.7;margin:0 2px}.callout .times{margin-left:8px;opacity:.8}
+
+  @media (max-width:920px){
+    main{grid-template-columns:1fr;padding:12px}
+    aside{order:2;max-height:none}
+      .time{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <img id="blogo" alt="" hidden>
+    <b id="bname">StepCast</b><span class="sep"></span><span class="who" id="bwho"></span>
+  </div>
+  <span class="sep big"></span>
+  <div class="t">
+    <h1 id="ltitle"></h1>
+    <p id="ldesc"></p>
+  </div>
+  <div class="prog"><span id="progtxt">0 / 0 steps</span><div class="bar"><i id="progbar"></i></div></div>
+  <a class="gbtn" id="guide" href="#" download hidden title="Printable step-by-step guide">
+    <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12v2h8v-2zm0 4v2h8v-2z"/></svg>Step guide (Word)</a>
+</div>
+
+<main id="app">
+  <aside>
+    <h2>Steps</h2>
+    <ol class="steps" id="steps"></ol>
+    <div class="stepnav" aria-label="Step navigation">
+      <button id="sfirst" title="First step" aria-label="First step"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+      <button id="sprev" title="Previous step" aria-label="Previous step"><svg viewBox="0 0 24 24"><path d="M16 5v14L5 12z"/></svg></button>
+      <span id="snum">Step 1 of 1</span>
+      <button id="snext" title="Next step" aria-label="Next step"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+      <button id="slast" title="Last step" aria-label="Last step"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="asidefoot">
+      <div class="af-row"><span id="aftext">0 of 0 steps watched</span><span id="afpct">0%</span></div>
+      <div class="af-bar"><i id="afbar"></i></div>
+    </div>
+  </aside>
+
+  <section class="player">
+    <div class="frame" id="frame">
+      <div class="stage" id="stage">
+        <div class="cam" id="cam">
+          <video id="video" preload="auto" playsinline></video>
+          <div class="fx" id="fx"></div>
+        </div>
+        <svg class="cosvg" id="cosvg" aria-hidden="true">
+          <line id="coline" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0"/>
+          <line id="coline2" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" opacity="0"/>
+          <path id="codot" d="" fill="#0f766e" stroke="none" opacity="0"/>
+        </svg>
+        <div class="callout" id="callout" role="status" aria-live="polite"><span class="ico" id="coico"></span><span class="ct" id="cotext"></span></div>
+        <div class="pill" id="pill"></div>
+        <div class="stepban" id="stepban" aria-hidden="true"></div>
+        <div class="recbar" id="recbar"><span class="dot"></span><span id="rectext">Recording narration…</span><button id="recstop">■ Stop</button></div>
+        <div class="keys" id="keys"></div>
+        <div class="overlay on" id="startov">
+          <div class="box">
+            <h3 id="sttitle"></h3>
+            <p id="stsub"></p>
+            <div class="btns"><button class="btn pri" id="startbtn">▶ Start lesson</button><button class="btn ghost" id="editbtn" hidden>✎ Edit lesson</button></div>
+          </div>
+        </div>
+        <div class="overlay" id="endov">
+          <div class="box">
+            <h3 id="endtitle">Step complete</h3>
+            <p id="endsub"></p>
+            <div class="btns">
+              <button class="btn" id="replaybtn">↺ Watch again</button>
+              <button class="btn pri" id="nextbtn">Next step ▶</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="ic" id="bprev" title="Previous step (←)" aria-label="Previous step"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+        <button class="ic" id="bplay" title="Play / pause (Space)" aria-label="Play or pause"><svg viewBox="0 0 24 24" id="playic"><path d="M7 4v16l13-8z"/></svg></button>
+        <button class="ic" id="bnext" title="Next step (→)" aria-label="Next step"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+        <div class="tl" id="tl"><div class="segs" id="segs"></div><div class="tip" id="tip"></div></div>
+        <span class="time" id="time">0:00 / 0:00</span>
+        <select id="speed" title="Playback speed" aria-label="Playback speed">
+          <option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option>
+          <option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option>
+        </select>
+        <button class="ic" id="bzoom" title="Auto-zoom on/off (Z)" aria-label="Toggle auto zoom"><svg viewBox="0 0 24 24"><path d="M10 3a7 7 0 015.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1110 3zm0 2a5 5 0 100 10 5 5 0 000-10zm-1 2h2v2h2v2h-2v2H9v-2H7V9h2z"/></svg></button>
+        <button class="ic" id="bcall" title="Callouts on/off (C)" aria-label="Toggle callouts"><svg viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 012 2v10a2 2 0 01-2 2h-7l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2zm3 5v2h10V8zm0 4v2h7v-2z"/></svg></button>
+        <button class="ic" id="bpause" title="Pause at the end of each step" aria-label="Pause after each step"><svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg></button>
+        <button class="ic" id="bfull" title="Full screen (F)" aria-label="Full screen"><svg viewBox="0 0 24 24"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg></button>
+      </div>
+    </div>
+
+    <div class="now">
+      <span class="big" id="nowbadge">Step 1</span>
+      <div><h3 id="nowtitle"></h3><p id="nownote"></p></div>
+    </div>
+    <div class="hint">Click any step to watch it. Keys: <kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> previous/next step · <kbd>R</kbd> replay step · <kbd>Z</kbd> zoom · <kbd>C</kbd> callouts · <kbd>F</kbd> full screen</div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="editbar">
+      <strong>Edit mode</strong>
+      <span style="color:var(--muted);font-size:13px" id="ehelp">Click a step to select it, then change its title, its callout text (the label shown on the video), or its narration (🎤 record or ⤒ add an audio file). Press <b>Save lesson</b> when you are done.</span>
+      <button class="btn" id="esplit">✂ New step at current time</button>
+      <button class="btn pri" id="esave">💾 Save lesson</button>
+      <button class="btn" id="ejson">Download lesson.json</button>
+      <button class="btn" id="eexit">Exit edit mode</button>
+    </div>
+  </section>
+</main>
+
+<script id="lesson-data" type="application/json">__LESSON_JSON__</script>
+<script>
+(function(){
+"use strict";
+const ORIGINAL_HTML = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+const L = JSON.parse(document.getElementById("lesson-data").textContent);
+const W = L.width, H = L.height;
+const $ = id => document.getElementById(id);
+const video=$("video"), stage=$("stage"), cam=$("cam"), fx=$("fx"), pill=$("pill"), keysEl=$("keys");
+const EDIT = /[?&]edit\b/.test(location.search);
+if (EDIT) document.body.classList.add("editing");
+
+// ---------- state ----------
+const store = (() => { try { const s = window.localStorage; s.setItem("_t","1"); s.removeItem("_t"); return s; } catch(e){ return null; } })();
+const KEY = "stepcast:" + L.id;
+let saved = {}; try { saved = JSON.parse((store && store.getItem(KEY)) || "{}"); } catch(e) {}
+const done = new Set(saved.done || []);
+let zoomOn = saved.zoom !== undefined ? saved.zoom : (L.settings||{}).zoom !== false;
+let calloutsOn = saved.callouts !== undefined ? saved.callouts : (L.settings||{}).callouts !== false;
+let pauseAfter = saved.pauseAfter !== undefined ? saved.pauseAfter : !!(L.settings||{}).pauseAfterStep;
+let cur = -1, pausedFor = null, started = false;
+const SET = L.settings || {};
+const ACTION_PAUSE = SET.actionPause !== undefined ? +SET.actionPause : 1.0;
+const STEP_PAUSE = SET.stepPause !== undefined ? +SET.stepPause : 1.0;
+let playedStep = -1, banTimer = null;
+// playback controller: "playing" is what the learner wants; "holds" are short internal pauses
+// (holding on a click so it can be read, waiting for narration to finish, recording narration)
+let playing = false, lastT = 0, freezeTimer = null;
+const holds = new Set();
+const narr = new Audio(); narr.preload = "auto";
+let narrStep = -1, recStep = -1;
+let dirty = false;           // edit mode: unsaved changes
+const PLAY_IC = '<path d="M7 4v16l13-8z"/>', PAUSE_IC = '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
+function setIcon(){ $("playic").innerHTML = playing ? PAUSE_IC : PLAY_IC; }
+function startPlay(){
+  playing = true; holds.clear(); clearTimeout(freezeTimer);
+  video.play().catch(()=>{ playing = false; setIcon(); });
+  if (narrStep === cur && narr.src && !narr.ended && narr.currentTime > 0) narr.play().catch(()=>{});
+  setIcon();
+}
+function stopPlay(){
+  playing = false; holds.clear(); clearTimeout(freezeTimer);
+  video.pause(); narr.pause(); setIcon();
+}
+function hold(r){ holds.add(r); video.pause(); }
+function release(r){
+  if (!holds.delete(r)) return;
+  if (playing && !holds.size) video.play().catch(()=>{});
+}
+function resetSync(){ playedStep = -1; lastT = video.currentTime; narrStep = -1; narr.pause(); holds.clear(); clearTimeout(freezeTimer); }
+narr.addEventListener("ended", () => release("narr"));
+function persist(){ if(!store) return; try { store.setItem(KEY, JSON.stringify({done:[...done], zoom:zoomOn, pauseAfter, callouts:calloutsOn})); } catch(e){} }
+
+// ---------- setup ----------
+stage.style.aspectRatio = W + " / " + H;
+video.src = L.video;
+video.addEventListener("error", () => {
+  stage.innerHTML = '<div class="err">The video file <b>' + L.video + '</b> could not be loaded. Keep it in the same folder as this page.</div>';
+});
+$("ltitle").textContent = L.title;
+const B = L.branding || {};
+if (B.accent) document.documentElement.style.setProperty("--accent", B.accent);
+$("bname").textContent = B.app_name || "StepCast";
+$("bwho").textContent = [B.organisation, B.author].filter(Boolean).join("  ·  ");
+if (B.logo){ $("blogo").src = B.logo; $("blogo").hidden = false; $("blogo").onerror = () => { $("blogo").hidden = true; }; }
+if (L.guide){ $("guide").href = L.guide; $("guide").hidden = false; }
+$("ldesc").textContent = L.description || "";
+$("sttitle").textContent = L.title;
+// "1×" is a comfortable learning pace: half the speed the teacher recorded at (adjustable in StepCast Settings)
+const NORMAL = SET.normalSpeed || 0.5;
+function applySpeed(v){ video.playbackRate = v * NORMAL; video.defaultPlaybackRate = v * NORMAL; }
+(function(){
+  const sp = $("speed"), v = SET.defaultSpeed || 1;
+  if (![...sp.options].some(o => +o.value === v)){ const o = document.createElement("option"); o.value = v; o.textContent = v + "×"; sp.appendChild(o); }
+  sp.value = String(v); applySpeed(v);
+})();
+if (!EDIT && SET.showEdit !== false){
+  const eb = $("editbtn"); eb.hidden = false;
+  eb.onclick = e => { e.stopPropagation(); location.search = "?edit"; };
+}
+const fmt = s => { s = Math.max(0, s|0); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
+
+function renderSteps(){
+  const ol = $("steps"); ol.innerHTML = "";
+  L.steps.forEach((s, i) => {
+    const li = document.createElement("li");
+    const b = document.createElement("div");
+    b.className = "step"; b.setAttribute("role","button"); b.tabIndex = 0; b.dataset.i = i;
+    b.innerHTML = '<span class="n"></span><span class="tx"><div class="tt"></div><div class="tools">' +
+      '<button data-a="start" title="Make this step start at the current video time">⇤ start here</button>' +
+      '<button data-a="del" title="Remove this step (its video joins the previous step)">✕ remove</button>' +
+      '<button data-a="rec" title="Record narration for this step with your microphone">🎤 record</button>' +
+      '<button data-a="file" title="Use an audio file (mp3, m4a, wav…) as this step\'s narration">⤒ audio file</button>' +
+      (s.audio ? '<button data-a="hear" title="Listen to this step\'s narration">▶ hear</button>' +
+                 '<button data-a="noaudio" title="Remove this step\'s narration">✕ audio</button>' : '') +
+      '</div></span>' +
+      (s.audio ? '<span class="au" title="This step has narration"><svg viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3zm13.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4zM14 3.2v2.1a7 7 0 010 13.4v2.1a9 9 0 000-17.6z"/></svg></span>' : '');
+    b.querySelector(".n").textContent = done.has(s.id) ? "✓" : (i+1);
+    const tt = b.querySelector(".tt"); tt.textContent = s.title;
+    if (EDIT){
+      tt.contentEditable = "true";
+      tt.addEventListener("click", e => { e.stopPropagation(); if (cur !== i) goStep(i, false); });
+      tt.addEventListener("input", () => { s.title = tt.textContent.trim(); if (i===cur) showNow(); });
+      tt.addEventListener("keydown", e => { if (e.key==="Enter"){ e.preventDefault(); tt.blur(); } e.stopPropagation(); });
+      b.querySelector('[data-a=start]').onclick = e => { e.stopPropagation(); setStart(i, video.currentTime); };
+      b.querySelector('[data-a=del]').onclick = e => { e.stopPropagation(); removeStep(i); };
+      const rb = b.querySelector('[data-a=rec]');
+      if (recStep === i){ rb.textContent = "■ stop"; rb.classList.add("on"); }
+      rb.onclick = e => { e.stopPropagation(); recStep === i ? stopRecording() : startRecording(i); };
+      b.querySelector('[data-a=file]').onclick = e => { e.stopPropagation(); pickAudio(i); };
+      const hb = b.querySelector('[data-a=hear]');
+      if (hb) hb.onclick = e => { e.stopPropagation(); stopPlay(); const a = new Audio(s.audio); a.play().catch(()=>{}); };
+      // callout texts belonging to this step, editable in place
+      const mine = (L.callouts || []).filter(c => c.kind !== "type" && (c.at !== undefined ? c.at : c.t0 + 1) >= s.start && (c.at !== undefined ? c.at : c.t0 + 1) < s.end);
+      if (mine.length){
+        const box = document.createElement("div"); box.className = "coedit";
+        box.innerHTML = '<div class="cl">Callout' + (mine.length > 1 ? 's' : '') + ' on the video</div>';
+        mine.forEach(c => {
+          const inp = document.createElement("input"); inp.type = "text"; inp.value = c.text;
+          inp.addEventListener("click", e => e.stopPropagation());
+          inp.addEventListener("keydown", e => e.stopPropagation());
+          inp.addEventListener("input", () => { c.text = inp.value; coText.dataset.v = ""; });
+          box.appendChild(inp);
+        });
+        b.querySelector(".tools").appendChild(box);
+      }
+      const nb = b.querySelector('[data-a=noaudio]');
+      if (nb) nb.onclick = e => { e.stopPropagation(); if (confirm("Remove the narration of step " + (i+1) + "?")){ delete s.audio; dirty = true; renderSteps(); } };
+    }
+    b.addEventListener("click", () => goStep(i, true));
+    b.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); goStep(i,true);} });
+    li.appendChild(b); ol.appendChild(li);
+  });
+  const segs = $("segs"); segs.innerHTML = "";
+  const D = L.duration || video.duration || 1;
+  L.steps.forEach(s => {
+    const d = document.createElement("div"); d.className = "seg";
+    d.style.flex = Math.max(0.001, (s.end - s.start)/D) + " 1 0"; d.appendChild(document.createElement("i"));
+    segs.appendChild(d);
+  });
+  cur = -1; updateProgress(); tick(true);
+}
+
+function updateProgress(){
+  const n = L.steps.length, d = L.steps.filter(s => done.has(s.id)).length;
+  $("progtxt").textContent = d + " / " + n + " steps";
+  $("progbar").style.width = (n ? 100*d/n : 0) + "%";
+  $("aftext").textContent = d + " of " + n + " steps watched";
+  $("afpct").textContent = (n ? Math.round(100*d/n) : 0) + "%";
+  $("afbar").style.width = (n ? 100*d/n : 0) + "%";
+  $("stsub").textContent = n + " steps · " + fmt(L.duration);
+}
+
+function stepAt(t){
+  let i = 0;
+  for (let k=0;k<L.steps.length;k++) if (L.steps[k].start <= t + 0.01) i = k;
+  return i;
+}
+
+function showNow(){
+  const s = L.steps[cur]; if (!s) return;
+  $("snum").textContent = "Step " + (cur+1) + " of " + L.steps.length;
+  $("sfirst").disabled = $("sprev").disabled = cur <= 0;
+  $("snext").disabled = $("slast").disabled = cur >= L.steps.length - 1;
+  $("nowbadge").textContent = "Step " + (cur+1) + " of " + L.steps.length;
+  const nt = $("nowtitle"), nn = $("nownote");
+  if (document.activeElement !== nt) nt.textContent = s.title;
+  if (document.activeElement !== nn) nn.textContent = s.note || "";
+}
+
+function setCurrent(i){
+  if (i === cur) return;
+  cur = i;
+  document.querySelectorAll(".step").forEach(el => el.classList.toggle("active", +el.dataset.i === i));
+  document.querySelectorAll(".step").forEach(el => el.classList.toggle("done", done.has(L.steps[+el.dataset.i].id)));
+  document.querySelectorAll(".seg").forEach((el,k) => el.classList.toggle("cur", k === i));
+  const el = document.querySelector('.step[data-i="'+i+'"]');
+  if (el && !EDIT) el.scrollIntoView({block:"nearest", behavior:"smooth"});
+  showNow();
+}
+
+function markDone(i){
+  const s = L.steps[i]; if (!s || done.has(s.id)) return;
+  done.add(s.id); persist(); updateProgress();
+  const el = document.querySelector('.step[data-i="'+i+'"]');
+  if (el){ el.classList.add("done"); el.querySelector(".n").textContent = "✓"; }
+}
+
+// ---------- navigation ----------
+function showBanner(i){
+  const b = $("stepban"), s = L.steps[i]; if (!b || !s) return;
+  b.innerHTML = '<span class="sb-n">Step ' + (i+1) + ' of ' + L.steps.length + '</span>';
+  b.appendChild(document.createTextNode(s.title));
+  b.classList.add("on");
+  clearTimeout(banTimer);
+  banTimer = setTimeout(() => b.classList.remove("on"), (STEP_PAUSE + 1.6) * 1000);
+}
+function hideOverlays(){ $("startov").classList.remove("on"); $("endov").classList.remove("on"); started = true; }
+function goStep(i, play){
+  i = Math.max(0, Math.min(L.steps.length-1, i));
+  hideOverlays(); pausedFor = null;
+  video.currentTime = L.steps[i].start + 0.001;
+  resetSync(); lastT = L.steps[i].start; playedStep = i;
+  showBanner(i);
+  setCurrent(i);
+  if (play) startPlay(); else stopPlay();
+}
+function togglePlay(){
+  if (!started){ goStep(0, true); return; }
+  $("endov").classList.remove("on");
+  if (playing) stopPlay();
+  else if (video.ended) goStep(0, true);
+  else startPlay();
+}
+$("startbtn").onclick = e => { e.stopPropagation(); goStep(0, true); };
+$("replaybtn").onclick = e => { e.stopPropagation(); goStep(cur, true); };
+$("nextbtn").onclick = e => { e.stopPropagation(); goStep(cur+1, true); };
+$("bprev").onclick = () => goStep(video.currentTime - L.steps[cur].start > 2 ? cur : cur-1, true);
+$("bnext").onclick = () => goStep(cur+1, true);
+$("sfirst").onclick = () => goStep(0, true);
+$("sprev").onclick = () => goStep(cur-1, true);
+$("snext").onclick = () => goStep(cur+1, true);
+$("slast").onclick = () => goStep(L.steps.length-1, true);
+$("bplay").onclick = togglePlay;
+stage.addEventListener("click", e => { if (e.target.closest(".overlay .btn")) return; togglePlay(); });
+video.addEventListener("play", () => { if (!playing){ playing = true; setIcon(); } });
+video.addEventListener("pause", () => {
+  // a pause we did not ask for (media keys, end of video): treat as the learner pausing
+  if (!holds.size && playing && !video.seeking){ playing = false; narr.pause(); setIcon(); }
+});
+video.addEventListener("ended", () => {
+  playing = false; holds.clear(); setIcon();
+  markDone(L.steps.length-1);
+  $("endtitle").textContent = "Lesson complete 🎉";
+  $("endsub").textContent = "You have watched all " + L.steps.length + " steps.";
+  $("nextbtn").style.display = "none"; $("replaybtn").textContent = "↺ Watch last step again";
+  $("endov").classList.add("on");
+});
+$("speed").onchange = e => { applySpeed(+e.target.value); narr.playbackRate = 1; };
+$("bcall").onclick = () => { calloutsOn = !calloutsOn; syncToggles(); persist(); };
+function syncToggles(){ $("bcall").classList.toggle("on", calloutsOn); $("bzoom").classList.toggle("on", zoomOn); $("bpause").classList.toggle("on", pauseAfter); }
+$("bzoom").onclick = () => { zoomOn = !zoomOn; syncToggles(); persist(); };
+$("bpause").onclick = () => { pauseAfter = !pauseAfter; syncToggles(); persist(); };
+$("bfull").onclick = () => {
+  const f = $("frame");
+  if (document.fullscreenElement) document.exitFullscreen(); else if (f.requestFullscreen) f.requestFullscreen();
+};
+syncToggles();
+
+// timeline
+const tl = $("tl"), tip = $("tip");
+function tlTime(e){ const r = tl.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left)/r.width)) * (L.duration || video.duration || 0); }
+let dragging = false;
+tl.addEventListener("pointerdown", e => { dragging = true; tl.setPointerCapture(e.pointerId); hideOverlays(); pausedFor = "seek"; resetSync(); video.currentTime = tlTime(e); if (playing) video.play().catch(()=>{}); });
+tl.addEventListener("pointermove", e => {
+  const t = tlTime(e), r = tl.getBoundingClientRect();
+  tip.style.display = "block"; tip.style.left = (e.clientX - r.left) + "px";
+  tip.textContent = "Step " + (stepAt(t)+1) + ": " + L.steps[stepAt(t)].title.slice(0,40);
+  if (dragging){ video.currentTime = t; resetSync(); }
+});
+tl.addEventListener("pointerup", () => { dragging = false; });
+tl.addEventListener("pointerleave", () => { tip.style.display = "none"; });
+
+document.addEventListener("keydown", e => {
+  if (e.target.isContentEditable || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+  const k = e.key.toLowerCase();
+  if (k === " " || k === "k"){ e.preventDefault(); togglePlay(); }
+  else if (k === "arrowright"){ e.preventDefault(); goStep(cur+1, true); }
+  else if (k === "arrowleft"){ e.preventDefault(); $("bprev").onclick(); }
+  else if (k === "r"){ goStep(cur, true); }
+  else if (k === "z"){ $("bzoom").onclick(); }
+  else if (k === "c"){ $("bcall").onclick(); }
+  else if (k === "f"){ $("bfull").onclick(); }
+});
+
+// ---------- camera / effects ----------
+const ease = p => p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3)/2;
+function rectOf(k){ const s = k[3], vw = W/s, vh = H/s; return [k[1]-vw/2, k[2]-vh/2, vw]; }
+function camAt(t){
+  const K = L.camera || [];
+  if (!K.length) return [0,0,1];
+  if (t <= K[0][0]) { const r = rectOf(K[0]); return [r[0], r[1], W/r[2]]; }
+  let lo = 0, hi = K.length - 1;
+  if (t >= K[hi][0]) { const r = rectOf(K[hi]); return [r[0], r[1], W/r[2]]; }
+  while (hi - lo > 1){ const m = (lo+hi) >> 1; if (K[m][0] <= t) lo = m; else hi = m; }
+  const a = rectOf(K[lo]), b = rectOf(K[hi]);
+  const p = ease((t - K[lo][0]) / Math.max(1e-6, K[hi][0] - K[lo][0]));
+  const vw = a[2] + (b[2]-a[2])*p;
+  return [a[0] + (b[0]-a[0])*p, a[1] + (b[1]-a[1])*p, W/vw];
+}
+let zs = zoomOn ? 1 : 0;   // blend factor so toggling zoom animates
+const rings = [];
+function ring(i){ while (rings.length <= i){ const d = document.createElement("div"); d.className = "ring"; fx.appendChild(d); rings.push(d); } return rings[i]; }
+
+// ---------- callouts ----------
+const ICONS = {
+  mouseL: '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2.9c3.6 0 6.1 2.6 6.1 6.2v5.8c0 3.6-2.6 6.2-6.1 6.2S5.9 18.5 5.9 14.9V9.1c0-3.6 2.5-6.2 6.1-6.2zM12 3v7.2M6 10.2h12"/><path fill="currentColor" d="M11.2 3.2C8.4 3.5 6.6 5.6 6.6 9.1v.6h4.6z"/></svg>',
+  mouseR: '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2.9c3.6 0 6.1 2.6 6.1 6.2v5.8c0 3.6-2.6 6.2-6.1 6.2S5.9 18.5 5.9 14.9V9.1c0-3.6 2.5-6.2 6.1-6.2zM12 3v7.2M6 10.2h12"/><path fill="currentColor" d="M12.8 3.2c2.8.3 4.6 2.4 4.6 5.9v.6h-4.6z"/></svg>',
+  drag:   '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l3 3h-2v6h6V9l3 3-3 3v-2h-6v6h2l-3 3-3-3h2v-6H5v2l-3-3 3-3v2h6V5H9z"/></svg>',
+  scroll: '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2.9c3.6 0 6.1 2.6 6.1 6.2v5.8c0 3.6-2.6 6.2-6.1 6.2S5.9 18.5 5.9 14.9V9.1c0-3.6 2.5-6.2 6.1-6.2z"/><path fill="currentColor" d="M12 6.5l2 2.4h-4zM12 13.6l-2-2.4h4z"/></svg>',
+  type:   '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 6.5h18v11H3z"/><path fill="currentColor" d="M5.5 9h2v2h-2zm3.5 0h2v2H9zm3.5 0h2v2h-2zm3.5 0h2v2h-2zM7 13.5h10v1.6H7z"/></svg>'
+};
+const coEl = $("callout"), coText = $("cotext"), coIco = $("coico"), cosvg = $("cosvg");
+const coLine = $("coline"), coLine2 = $("coline2"), coDot = $("codot");
+let coActive = null, coSide = null;
+function esc(x){ return x.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function hideCallout(){ coEl.classList.remove("on"); coLine.setAttribute("opacity","0"); coLine2.setAttribute("opacity","0"); coDot.setAttribute("opacity","0"); coActive = null; }
+function drawCallout(t, left, top, s){
+  const list = L.callouts || [];
+  if (!calloutsOn || !list.length){ hideCallout(); return; }
+  // when actions come close together, show the one nearest in time (switch half-way between them)
+  let c = null, best = 1e9;
+  for (const x of list){
+    if (t < x.t0 || t > x.t1) continue;
+    const a0 = x.at !== undefined ? x.at : x.kind === "type" ? x.t0 + 0.2 : x.t0;
+    const a1 = x.kind === "type" ? Math.max(a0, x.t1 - 1.4) : a0;
+    const d = t < a0 ? a0 - t : t > a1 ? t - a1 : 0;
+    if (d <= best){ best = d; c = x; }
+  }
+  if (!c){ hideCallout(); return; }
+  const Sw = stage.clientWidth, Sh = stage.clientHeight;
+  let cx = c.x, cy = c.y;
+  if (c.path){ for (const p of c.path){ if (p[0] <= t){ cx = p[1]; cy = p[2]; } else break; } }
+  const caption = cx === null || cx === undefined;
+  const px = caption ? 0 : (cx - left) * s * Sw / W, py = caption ? 0 : (cy - top) * s * Sh / H;
+  if (!caption && (px < 0 || py < 0 || px > Sw || py > Sh)){ hideCallout(); return; }
+
+  // content
+  let html;
+  if (c.kind === "type"){
+    let txt = "";
+    for (const f of (c.frames || [])){ if (f[0] <= t) txt = f[1]; else break; }
+    txt = txt.replace(/\n/g, " ↵ ").replace(/\t/g, " ⇥ ");
+    if (txt.length > 40) txt = "…" + txt.slice(-39);
+    html = 'Type: <span class="ty">' + esc(txt) + '<span class="car">&nbsp;</span></span>';
+  } else if (c.kind === "key"){
+    const m = /^Press (.+?)(  ×\d+)?$/.exec(c.text || "");
+    html = m ? "Press " + m[1].split(" + ").map(k => "<kbd>" + esc(k) + "</kbd>").join('<span class="plus">+</span>') +
+               (m[2] ? '<span class="times">' + esc(m[2].trim()) + "</span>" : "") : esc(c.text);
+  } else html = esc(c.text);
+  if (coText.dataset.v !== html){ coText.innerHTML = html; coText.dataset.v = html; }
+  if (coActive !== c){
+    coActive = c; coSide = null;
+    coEl.className = "callout k-" + c.kind + (caption ? " cap" : "");
+    coIco.innerHTML = c.kind === "rclick" ? ICONS.mouseR : c.kind === "drag" ? ICONS.drag :
+                      c.kind === "scroll" ? ICONS.scroll : (c.kind === "type" || c.kind === "key") ? ICONS.type : ICONS.mouseL;
+  }
+  const op = Math.max(0, Math.min(1, (t - c.t0)/0.2, (c.t1 - t)/0.25));
+  const hidePointer = () => { coLine.setAttribute("opacity","0"); coLine2.setAttribute("opacity","0"); coDot.setAttribute("opacity","0"); };
+  if (caption){   // key presses, or typing whose spot is unknown: a caption at the bottom, no pointer
+    const bw = coEl.offsetWidth, bh = coEl.offsetHeight;
+    coEl.style.transform = "translate(" + ((Sw - bw)/2) + "px," + (Sh - bh - Sh*0.07) + "px)";
+    coEl.style.opacity = String(op); coEl.classList.add("on");
+    hidePointer();
+    return;
+  }
+  // placement: a speech bubble well away from the spot, so it never covers what is happening there.
+  // Typing: below and to the right of the line being typed (text grows left of the cursor, earlier lines are above).
+  const bw = coEl.offsetWidth, bh = coEl.offsetHeight, m = 8;
+  const gx = Math.max(70, Sw*0.07), gy = Math.max(70, Sh*0.14);
+  const sides = c.kind === "type" ? {
+    br: [px + gx*0.4, py + gy],        bl: [px - bw - gx*0.4, py + gy],
+    tr: [px + gx*0.4, py - gy*1.5 - bh], tl: [px - bw - gx*0.4, py - gy*1.5 - bh]
+  } : {
+    br: [px + gx*0.5, py + gy*0.8],    tr: [px + gx*0.5, py - gy*0.8 - bh],
+    bl: [px - gx*0.5 - bw, py + gy*0.8], tl: [px - gx*0.5 - bw, py - gy*0.8 - bh]
+  };
+  const order = Object.keys(sides);
+  const fits = k => { const [x, y] = sides[k]; return x >= m && y >= m && x + bw <= Sw - m && y + bh <= Sh - m; };
+  if (!coSide || !(coSide in sides) || !fits(coSide)) coSide = order.find(fits) || order[0];
+  let [bx, by] = sides[coSide];
+  bx = Math.min(Math.max(bx, m), Sw - bw - m); by = Math.min(Math.max(by, m), Sh - bh - m);
+  coEl.style.transform = "translate(" + bx + "px," + by + "px)";
+  coEl.style.opacity = String(op);
+  coEl.classList.add("on");
+  coLine.setAttribute("opacity","0"); coLine2.setAttribute("opacity","0");
+
+  // the bubble's tail: a wedge from the bubble's edge towards the spot, stopping short of it
+  const r = 14, half = Math.min(16, bw/5);                // corner radius, half-width of the tail's base
+  let b1x, b1y, b2x, b2y;
+  if (py <= by || py >= by + bh){                         // spot above or below: tail from the top/bottom edge
+    const ey = py <= by ? by + 1 : by + bh - 1;
+    const cx0 = Math.min(Math.max(px, bx + r + half), bx + bw - r - half);
+    b1x = cx0 - half; b2x = cx0 + half; b1y = b2y = ey;
+  } else {                                                // spot beside the bubble: tail from the side
+    const ex = px < bx ? bx + 1 : bx + bw - 1;
+    const cy0 = Math.min(Math.max(py, by + r + half*0.7), by + bh - r - half*0.7);
+    b1y = cy0 - half*0.7; b2y = cy0 + half*0.7; b1x = b2x = ex;
+  }
+  const mx = (b1x + b2x)/2, my = (b1y + b2y)/2;
+  const d = Math.hypot(px - mx, py - my) || 1;
+  const gap = c.kind === "type" ? 20 : 9;                 // keep the spot itself (and the typed text) visible
+  const tx = px - (px - mx)/d*gap, ty = py - (py - my)/d*gap;
+  coDot.setAttribute("d", "M" + b1x + " " + b1y + " L" + tx + " " + ty + " L" + b2x + " " + b2y + " Z");
+  coDot.setAttribute("fill", getComputedStyle(coEl).backgroundColor);
+  coDot.setAttribute("opacity", String(op));
+}
+
+function tick(force){
+  const t = video.currentTime;
+  // camera
+  zs += ((zoomOn ? 1 : 0) - zs) * 0.12;
+  let [left, top, s] = camAt(t);
+  s = 1 + (s - 1) * zs; left *= zs; top *= zs;
+  const vw = W/s, vh = H/s;
+  left = Math.min(Math.max(left, 0), W - vw); top = Math.min(Math.max(top, 0), H - vh);
+  cam.style.transform = "translate(" + (-left/W*s*100) + "%," + (-top/H*s*100) + "%) scale(" + s + ")";
+  drawCallout(t, left, top, s);
+
+  // click rings
+  let n = 0;
+  for (const c of (L.clicks || [])){
+    const dt = t - c[0];
+    if (dt < -0.02 || dt > 0.75) continue;
+    const p = Math.max(0, dt) / 0.75, el = ring(n++);
+    const size = (18 + 46*p) / s * (stage.clientWidth / 1000 + 0.4);
+    el.style.display = "block";
+    el.style.left = (c[1]/W*100) + "%"; el.style.top = (c[2]/H*100) + "%";
+    el.style.width = el.style.height = size + "px";
+    el.style.borderWidth = Math.max(1.5, 3.5/s) + "px";
+    el.style.opacity = String(1 - p);
+    el.style.borderColor = c[3] === "rclick" ? "#60a5fa" : "";
+  }
+  for (let k = n; k < rings.length; k++) rings[k].style.display = "none";
+
+  // typed text
+  let showType = null;
+  for (const ty of (L.typing || [])){
+    if (t >= ty.t0 - 0.05 && t <= ty.t1 + 1.6){
+      let txt = "";
+      for (const f of ty.frames){ if (f[0] <= t) txt = f[1]; else break; }
+      showType = txt; break;
+    }
+  }
+  if (showType !== null && !(calloutsOn && (L.callouts||[]).length)){
+    const disp = showType.replace(/\n/g, "↵").replace(/\t/g, "⇥");
+    const tail = disp.length > 60 ? "…" + disp.slice(-59) : disp;
+    if (pill.dataset.v !== tail){
+      pill.dataset.v = tail;
+      pill.innerHTML = '<span class="lbl">Typing</span>';
+      pill.appendChild(document.createTextNode(tail));
+      const c = document.createElement("span"); c.className = "car"; c.innerHTML = "&nbsp;"; pill.appendChild(c);
+    }
+    pill.classList.add("on");
+  } else pill.classList.remove("on");
+
+  // key combos
+  let kl = null;
+  for (const k of (L.keys || [])){ if (t >= k[0] - 0.05 && t - k[0] < 1.6) kl = k[1]; }
+  if (kl && calloutsOn && (L.callouts || []).some(c => c.kind === "key")) kl = null;   // the callout shows it
+  if (kl){
+    if (keysEl.dataset.v !== kl){
+      keysEl.dataset.v = kl; keysEl.innerHTML = "";
+      const [combo, times] = kl.split("  ");
+      combo.split(" + ").forEach((p, i) => {
+        if (i){ const pl = document.createElement("span"); pl.textContent = "+"; keysEl.appendChild(pl); }
+        const kb = document.createElement("kbd"); kb.textContent = p; keysEl.appendChild(kb);
+      });
+      if (times){ const x = document.createElement("span"); x.textContent = times; keysEl.appendChild(x); }
+    }
+    keysEl.classList.add("on");
+  } else keysEl.classList.remove("on");
+
+  // steps
+  const i = stepAt(t);
+  const st = L.steps[i];
+  if (i !== cur || force) setCurrent(i);
+  if (playing && st && i !== playedStep){
+    const flowed = playedStep >= 0 && i === playedStep + 1 && !video.seeking;
+    playedStep = i;
+    if (flowed){
+      showBanner(i);
+      if (STEP_PAUSE > 0 && !holds.has("step")){
+        hold("step");
+        setTimeout(() => release("step"), STEP_PAUSE * 1000);
+      }
+    }
+  }
+  if (playing && st){
+    // narration: start it when a step begins, wait for it before moving on
+    if (i !== narrStep){
+      narrStep = i; narr.pause();
+      if (st.audio && recStep < 0){
+        const off = t - st.start;
+        narr.src = st.audio;
+        const go = () => { try { narr.currentTime = off < 0.4 ? 0 : off; } catch(e){}
+                           if (playing && (off < 0.4 || off < (narr.duration || 0))) narr.play().catch(()=>{}); };
+        if (narr.readyState >= 1) go(); else narr.addEventListener("loadedmetadata", go, {once: true});
+      } else narr.removeAttribute("src");
+    }
+    const narrating = st.audio && narrStep === i && !narr.ended && !narr.paused;
+    if (narrating && i < L.steps.length - 1 && t >= st.end - 0.12 && !holds.has("narr")) hold("narr");
+    // while recording narration, hold the picture at the end of the step until Stop
+    if (recStep === i && t >= st.end - 0.1 && !holds.has("rec")) hold("rec");
+    // hold briefly on each click so learners can see where it happens
+    if (!holds.size && ACTION_PAUSE > 0 && t > lastT && t - lastT < 0.6){
+      for (const c of (L.callouts || [])){
+        if (c.at !== undefined && lastT < c.at - 0.04 && c.at - 0.04 <= t){
+          hold("action");
+          freezeTimer = setTimeout(() => release("action"), ACTION_PAUSE * 1000);
+          break;
+        }
+      }
+    }
+    lastT = Math.max(lastT, t);
+  }
+  if (playing && st){
+    if (t >= st.start + 0.9*(st.end - st.start)) markDone(i);
+    if (pauseAfter && recStep < 0 && !holds.has("narr") && i < L.steps.length - 1 && t >= st.end - 0.08 && pausedFor !== st.id){
+      pausedFor = st.id; stopPlay();
+      $("endtitle").textContent = "Step " + (i+1) + " complete";
+      $("endsub").textContent = "Next: " + L.steps[i+1].title;
+      $("nextbtn").style.display = ""; $("replaybtn").textContent = "↺ Watch again";
+      $("endov").classList.add("on");
+      markDone(i);
+    }
+  }
+  // timeline fill
+  const segs = document.querySelectorAll(".seg i");
+  L.steps.forEach((s2, k) => {
+    const f = t >= s2.end ? 1 : t <= s2.start ? 0 : (t - s2.start)/(s2.end - s2.start);
+    if (segs[k]) segs[k].style.width = (f*100) + "%";
+  });
+  $("time").textContent = fmt(t) + " / " + fmt(L.duration || video.duration || 0);
+}
+(function loop(){ tick(false); requestAnimationFrame(loop); })();
+video.addEventListener("seeked", () => { if (pausedFor === "seek") pausedFor = null; lastT = video.currentTime; });
+
+// ---------- edit mode ----------
+let recorder = null, recChunks = [], recStream = null;
+function blobToDataURL(blob){ return new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = bad; r.readAsDataURL(blob); }); }
+async function startRecording(i){
+  if (recStep >= 0) stopRecording();
+  if (!navigator.mediaDevices || !window.MediaRecorder)
+    return alert("This browser cannot record audio here. Use '⤒ audio file' to add a recording instead.");
+  try { recStream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true}}); }
+  catch(e){ return alert("The microphone could not be opened (" + e.name + "). Allow microphone access for this page, or use '⤒ audio file'."); }
+  const type = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg"].find(t => MediaRecorder.isTypeSupported(t)) || "";
+  recorder = new MediaRecorder(recStream, type ? {mimeType: type} : undefined);
+  recChunks = [];
+  recorder.ondataavailable = e => { if (e.data.size) recChunks.push(e.data); };
+  recorder.onstop = async () => {
+    recStream.getTracks().forEach(tr => tr.stop());
+    const blob = new Blob(recChunks, {type: recorder.mimeType || "audio/webm"});
+    if (blob.size > 1000){ L.steps[i].audio = await blobToDataURL(blob); dirty = true; }
+    recorder = null; renderSteps();
+  };
+  recStep = i;
+  $("rectext").textContent = "Recording narration for step " + (i+1) + " – speak while the step plays";
+  $("recbar").classList.add("on");
+  goStep(i, true);
+  recorder.start();
+  renderSteps();
+}
+function stopRecording(){
+  const i = recStep; recStep = -1;
+  $("recbar").classList.remove("on");
+  release("rec"); stopPlay();
+  if (recorder && recorder.state !== "inactive") recorder.stop();
+  if (i >= 0) setTimeout(() => goStep(i, false), 50);
+}
+$("recstop").onclick = e => { e.stopPropagation(); stopRecording(); };
+function pickAudio(i){
+  const inp = document.createElement("input");
+  inp.type = "file"; inp.accept = "audio/*";
+  inp.onchange = async () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    if (f.size > 15e6) return alert("That file is very large. Please use a shorter clip (under 15 MB).");
+    L.steps[i].audio = await blobToDataURL(f); dirty = true; renderSteps();
+  };
+  inp.click();
+}
+function setStart(i, t){
+  if (i === 0) return alert("The first step always starts at 0:00.");
+  const prev = L.steps[i-1], s = L.steps[i];
+  if (t <= prev.start + 0.3 || t >= s.end - 0.3) return alert("Move the video to a time between the previous step's start and this step's end first.");
+  prev.end = s.start = +t.toFixed(3); dirty = true; renderSteps();
+}
+function removeStep(i){
+  if (L.steps.length < 2) return;
+  if (!confirm('Remove step ' + (i+1) + ' “' + L.steps[i].title + '”? Its video joins the neighbouring step.')) return;
+  if (i > 0) L.steps[i-1].end = L.steps[i].end; else L.steps[1].start = L.steps[0].start;
+  L.steps.splice(i, 1); dirty = true; renderSteps();
+}
+if (EDIT){
+  for (const [id, key] of [["ltitle","title"], ["ldesc","description"]]){
+    const el = $(id); el.contentEditable = "true";
+    if (!el.textContent) el.textContent = key === "description" ? "Add a short description…" : "Untitled";
+    el.addEventListener("input", () => { L[key] = el.textContent.trim(); });
+  }
+  const nt = $("nowtitle"), nn = $("nownote");
+  nt.contentEditable = nn.contentEditable = "true";
+  nt.addEventListener("input", () => { L.steps[cur].title = nt.textContent.trim(); const el = document.querySelector('.step[data-i="'+cur+'"] .tt'); if (el) el.textContent = L.steps[cur].title; });
+  nn.addEventListener("input", () => { L.steps[cur].note = nn.textContent.trim(); });
+  coEl.addEventListener("click", e => {
+    e.stopPropagation();
+    if (!coActive || coActive.kind === "type") return alert("Typing callouts show the typed text automatically.");
+    stopPlay();
+    const v = prompt("Callout text:", coActive.text);
+    if (v !== null && v.trim()){ coActive.text = v.trim(); coText.dataset.v = ""; dirty = true; }
+  });
+  $("esplit").onclick = () => {
+    const t = video.currentTime, i = stepAt(t), s = L.steps[i];
+    if (t - s.start < 0.5 || s.end - t < 0.5) return alert("Move the video a little further into the step first.");
+    L.steps.splice(i+1, 0, {id: "s" + Date.now(), title: "New step", note: "", start: +t.toFixed(3), end: s.end, action_t: t, focus: null, thumb: ""});
+    s.end = +t.toFixed(3); dirty = true; renderSteps();
+  };
+  const download = (name, text, type) => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], {type}));
+    a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  };
+  // Opened from StepCast (Lessons → Edit): save straight into the lesson folder.
+  const QS = new URLSearchParams(location.search);
+  const TOKEN = QS.get("token");
+  const SERVER = /^https?:$/.test(location.protocol) && TOKEN;
+  const folder = decodeURIComponent(location.pathname.split("/").slice(-2, -1)[0] || "");
+  function toast(msg, kind){
+    const t = $("toast"); t.className = "toast on " + (kind || ""); t.innerHTML = msg;
+    clearTimeout(t._h); if (kind !== "busy") t._h = setTimeout(() => t.classList.remove("on"), 4500);
+  }
+  document.addEventListener("input", () => { dirty = true; }, true);
+  window.addEventListener("beforeunload", e => { if (dirty){ e.preventDefault(); e.returnValue = ""; } });
+  $("esave").onclick = async () => {
+    if (recStep >= 0) stopRecording();
+    if (SERVER){
+      const btn = $("esave"); btn.disabled = true;
+      toast("Saving… (also updating the Word guide and narration)", "busy");
+      try {
+        const r = await fetch("/api/save?token=" + encodeURIComponent(TOKEN) + "&lesson=" + encodeURIComponent(folder),
+                              {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(L)});
+        const res = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(res.error || ("error " + r.status));
+        dirty = false;
+        toast("✓ Saved. The lesson, Word guide and narration are up to date.", "ok");
+        setTimeout(() => location.reload(), 1200);
+      } catch(e){
+        toast("Could not save: " + e.message + "<br>Is StepCast still open?", "err");
+      } finally { btn.disabled = false; }
+      return;
+    }
+    // Opened directly from the folder: the browser may only download a copy.
+    const json = JSON.stringify(L).replace(/<\//g, "<\\/");
+    let html = ORIGINAL_HTML.replace(/(<script id="lesson-data" type="application\/json">)[\s\S]*?(<\/script>)/, (m, a, b) => a + json + b);
+    const safeTitle = L.title.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+    html = html.replace(/<title>[\s\S]*?<\/title>/, "<title>" + safeTitle + "</title>");
+    download("index.html", html, "text/html");
+    dirty = false;
+    alert("Your browser can only download a copy when the lesson is opened straight from its folder.\n\n" +
+          "Easier: open StepCast, go to Lessons and press Edit on this lesson – then Save writes directly into the lesson.\n\n" +
+          "To keep this copy: replace index.html in the lesson folder with the downloaded file, then press Update in StepCast.");
+  };
+  $("ejson").onclick = () => download("lesson.json", JSON.stringify(L, null, 1), "application/json");
+  $("eexit").onclick = () => { location.search = ""; };
+}
+
+renderSteps();
+})();
+</script>
+</body>
+</html>

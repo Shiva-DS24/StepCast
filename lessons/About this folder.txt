@@ -1,0 +1,2 @@
+Your finished lessons are saved here, one folder per lesson.
+Open a lesson with index.html, or use the Lessons page in StepCast.

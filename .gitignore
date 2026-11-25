@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Written by the installer on each PC (contains a local path)
+app/python_path.txt
+
+# Teachers' own recordings and lessons stay on their computer
+recordings/*
+!recordings/About this folder.txt
+lessons/*
+!lessons/About this folder.txt
+
+# Logs and backups
+*.log
+index.backup.html
+
+# OS files
+Thumbs.db
+.DS_Store

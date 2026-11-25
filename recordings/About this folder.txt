@@ -1,0 +1,2 @@
+Raw recordings are kept here so lessons can be rebuilt.
+You can delete a recording once you are happy with its lesson.

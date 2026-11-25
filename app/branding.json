@@ -1,0 +1,14 @@
+{
+  "app_name": "StepCast",
+  "organisation": "ODC EdTech Unit",
+  "author": "Dr Siva",
+  "logo": "logo.png",
+  "accent": "#0f766e",
+  "normal_speed": 0.5,
+  "step_pause": 1.0,
+  "zoom": 2.0,
+  "action_pause": 1.0,
+  "default_speed": 1.0,
+  "show_edit_button": true,
+  "guide_screenshots": false
+}
