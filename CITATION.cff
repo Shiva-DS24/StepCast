@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use StepCast in your teaching or research, please cite it using the metadata below."
+title: "StepCast: an open-source authoring tool for interactive, step-by-step software-training lessons using Windows UI Automation"
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/Shiva-DS24/StepCast"
+type: software
+authors:
+  - family-names: Manickam
+    given-names: Sivakumar
+    affiliation: "Oman Dental College"
+    email: skumar@staff.odc.edu.om
+  - family-names: Sivakumar
+    given-names: Shreya
+keywords:
+  - software training
+  - instructional video
+  - screen recording
+  - UI Automation
+  - e-learning
+  - multimedia learning
+  - Moodle
+# When the SoftwareX article is published, add its DOI, journal details and
+# a "preferred-citation" block, and add the Zenodo DOI of the release
+# under "identifiers".

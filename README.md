@@ -77,4 +77,6 @@ The code was written with the help of Claude (Anthropic) as an AI coding assista
 
 ## Citation
 
-A software paper describing StepCast is in preparation. Citation details and a DOI will be added here.
+If you use StepCast in your teaching or research, please cite it. The repository includes a [`CITATION.cff`](CITATION.cff) file, so GitHub's **Cite this repository** button gives the reference in APA or BibTeX format.
+
+A software paper describing StepCast is in preparation; its DOI will be added here and in `CITATION.cff` once published.
