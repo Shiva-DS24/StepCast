@@ -498,8 +498,8 @@
   "showEdit": true
  },
  "callout_v": 2,
- "builder": "1.3.2",
- "generator": "StepCast 1.3 by Dr Sivakumar Manickam (skumar@staff.odc.edu.om), developed with the help of Claude (Anthropic)",
+ "builder": "1.0.0",
+ "generator": "StepCast 1.0 by Dr Sivakumar Manickam (skumar@staff.odc.edu.om), developed with the help of Claude (Anthropic)",
  "branding": {
   "app_name": "StepCast",
   "organisation": "ODC EdTech Unit",

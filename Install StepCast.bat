@@ -4,7 +4,7 @@ REM  Install StepCast  -  double-click this file once.
 REM  Installs what StepCast needs (Python, ffmpeg, a few Python libraries)
 REM  and puts a StepCast icon on your desktop and in the Start menu.
 REM
-REM  StepCast 1.3 - Dr Sivakumar Manickam <skumar@staff.odc.edu.om>, Oman Dental College
+REM  StepCast 1.0 - Dr Sivakumar Manickam <skumar@staff.odc.edu.om>, Oman Dental College
 REM  Developed with the help of Claude (Anthropic) as an AI coding assistant.
 REM ============================================================================
 setlocal EnableExtensions EnableDelayedExpansion

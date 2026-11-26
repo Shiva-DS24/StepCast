@@ -1,7 +1,7 @@
 @echo off
 REM ============================================================================
 REM  Start StepCast  (or use the StepCast icon on your desktop)
-REM  StepCast 1.3 - Dr Sivakumar Manickam <skumar@staff.odc.edu.om>, Oman Dental College
+REM  StepCast 1.0 - Dr Sivakumar Manickam <skumar@staff.odc.edu.om>, Oman Dental College
 REM  Developed with the help of Claude (Anthropic) as an AI coding assistant.
 REM ============================================================================
 cd /d "%~dp0"

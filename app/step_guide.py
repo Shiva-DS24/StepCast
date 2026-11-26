@@ -6,14 +6,14 @@ Author:      Dr Sivakumar Manickam <skumar@staff.odc.edu.om>
              Head of Educational Technology & Resources, Oman Dental College
 Credits:     Conceived, designed, tested and led by Dr Sivakumar Manickam.
              Developed with the help of Claude (Anthropic) as an AI coding assistant.
-Version:     1.3
+Version:     1.0.0
 Copyright:   (c) 2026 Dr Sivakumar Manickam. Licensed under the MIT License (see LICENSE).
 """
 
 __author__ = "Dr Sivakumar Manickam"
 __email__ = "skumar@staff.odc.edu.om"
 __credits__ = ["Dr Sivakumar Manickam (lead: idea, design, testing)", "Claude, Anthropic (AI coding assistant)"]
-__version__ = "1.3"
+__version__ = "1.0.0"
 __copyright__ = "(c) 2026 Dr Sivakumar Manickam"
 
 
@@ -278,7 +278,7 @@ def make_step_guide(lesson, out_dir, filename="step_guide.docx"):
     core = doc.core_properties
     core.title = lesson["title"]
     core.author = author or app_name
-    core.comments = ("Made with StepCast 1.3 by Dr Sivakumar Manickam (skumar@staff.odc.edu.om), "
+    core.comments = ("Made with StepCast 1.0 by Dr Sivakumar Manickam (skumar@staff.odc.edu.om), "
                      "developed with the help of Claude (Anthropic).")
     core.subject = "Step-by-step guide"
 

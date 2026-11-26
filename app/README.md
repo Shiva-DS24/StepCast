@@ -1,6 +1,6 @@
 # StepCast: developer notes
 
-**StepCast 1.3**: interactive, step-by-step screen lessons.
+**StepCast 1.0**: interactive, step-by-step screen lessons.
 **Developed by Dr Sivakumar Manickam** ([skumar@staff.odc.edu.om](mailto:skumar@staff.odc.edu.om)), Head of Educational Technology & Resources, Oman Dental College, with the help of Claude (Anthropic) as an AI coding assistant.
 
 > Teachers: you don't need this file. Read **`READ ME FIRST.pdf`** in the StepCast folder.
