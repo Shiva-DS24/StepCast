@@ -14,6 +14,8 @@ While the teacher works at normal speed, StepCast records the screen together wi
 
 Teachers can then edit step titles and callouts and record narration for each step in the browser. A lesson is a folder of plain files that works offline, from a USB stick or network share, or inside a VLE such as Moodle (upload as a *File* resource and set `index.html` as the main file). No plugin or server is needed.
 
+**Demo video (4 min):** [docs/StepCast_demo.mp4](docs/StepCast_demo.mp4) shows a lesson being recorded, built, played and edited.
+
 ## Requirements
 
 - **Teachers** (recording, building and editing lessons): **Windows 10 (version 2004 or later) or Windows 11.** StepCast is a Windows application: recording relies on Windows UI Automation and Windows screen-capture features.
