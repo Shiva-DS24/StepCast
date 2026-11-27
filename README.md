@@ -75,6 +75,20 @@ All recording and processing happens on the teacher's computer; nothing is uploa
 
 The code was written with the help of Claude (Anthropic) as an AI coding assistant, under the first author's design, direction and testing.
 
+## Third-party software
+
+StepCast's own code is MIT-licensed. It does not include or redistribute any third-party software. The installer downloads the following from their official sources onto the teacher's computer, and StepCast uses them unmodified, each under its own licence:
+
+| Component | Used for | Licence |
+|---|---|---|
+| [FFmpeg](https://ffmpeg.org) (Gyan.FFmpeg build via winget) | Screen capture and video encoding, run as a separate program | LGPL 2.1+ / GPL (this build) |
+| [Python](https://www.python.org) | Runs StepCast | PSF License |
+| [pynput](https://github.com/moses-palmer/pynput) | Mouse and keyboard hooks | LGPL 3.0 |
+| [uiautomation](https://github.com/yinkaisheng/Python-UIAutomation-for-Windows) | Windows UI Automation access | Apache 2.0 |
+| [python-docx](https://github.com/python-openxml/python-docx) | Word step guide | MIT |
+| [Pillow](https://python-pillow.org) | Image handling | MIT-CMU (HPND) |
+| [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) | Desktop interface | MIT |
+
 ## Licence
 
 [MIT](LICENSE)
