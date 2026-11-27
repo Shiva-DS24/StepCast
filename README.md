@@ -1,5 +1,7 @@
 # StepCast
 
+[![DOI](https://zenodo.org/badge/github/1471309411.svg)](https://doi.org/10.5281/zenodo.24575109)
+
 **Turn a screen recording into a step-by-step interactive lesson.**
 
 StepCast records a teacher doing a task in any Windows application (for example, inserting a table in Word) and turns the recording into a self-contained HTML lesson that students can follow at their own pace. It also produces a printable Word step guide.
@@ -80,5 +82,7 @@ The code was written with the help of Claude (Anthropic) as an AI coding assista
 ## Citation
 
 If you use StepCast in your teaching or research, please cite it. The repository includes a [`CITATION.cff`](CITATION.cff) file, so GitHub's **Cite this repository** button gives the reference in APA or BibTeX format.
+
+StepCast is archived on Zenodo. To cite all versions, use DOI [10.5281/zenodo.24575109](https://doi.org/10.5281/zenodo.24575109). To cite version 1.0.0 specifically, use DOI [10.5281/zenodo.24575110](https://doi.org/10.5281/zenodo.24575110).
 
 A software paper describing StepCast is in preparation; its DOI will be added here and in `CITATION.cff` once published.

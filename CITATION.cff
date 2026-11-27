@@ -4,6 +4,14 @@ title: "StepCast: an open-source tool for authoring interactive, step-by-step so
 version: 1.0.0
 date-released: "2026-11-27"
 license: MIT
+doi: 10.5281/zenodo.24575110
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24575109
+    description: "Concept DOI: all versions of StepCast"
+  - type: doi
+    value: 10.5281/zenodo.24575110
+    description: "Version DOI: StepCast 1.0.0"
 repository-code: "https://github.com/Shiva-DS24/StepCast"
 type: software
 authors:
@@ -26,5 +34,4 @@ keywords:
   - multimedia learning
   - Moodle
 # When the SoftwareX article is published, add its DOI, journal details and
-# a "preferred-citation" block, and add the Zenodo DOI of the release
-# under "identifiers".
+# a "preferred-citation" block.
