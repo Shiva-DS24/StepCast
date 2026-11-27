@@ -91,7 +91,7 @@ StepCast's own code is MIT-licensed. It does not include or redistribute any thi
 
 ## Licence
 
-[MIT](LICENSE)
+[MIT](LICENSE) (the same text is also provided as [Licence.txt](Licence.txt))
 
 ## Citation
 
