@@ -121,26 +121,30 @@ exit /b %errorlevel%
 :nowinget_python
 echo.
 echo   !! Python could not be installed automatically.
-echo      1. Go to https://www.python.org/downloads/ and install the latest Python.
-echo         IMPORTANT: tick "Add python.exe to PATH" on the first screen.
-echo      2. Then double-click "Install StepCast.bat" again.
+echo      1. Go to https://www.python.org/downloads/windows/ and run the latest Python 3 installer.
+echo         On the first screen tick "Add python.exe to PATH", click "Customize installation",
+echo         then tick "Install Python for all users" ^(needs administrator rights^).
+echo      2. Then double-click "Install StepCast.bat" again. See README.md, "Install", for details.
 goto :fail
 
 :nopython
 echo.
 echo   !! Python was not found.
-echo      1. Go to https://www.python.org/downloads/ and install the latest Python.
-echo         IMPORTANT: tick "Add python.exe to PATH" on the first screen.
-echo      2. Then double-click "Install StepCast.bat" again.
+echo      1. Go to https://www.python.org/downloads/windows/ and run the latest Python 3 installer.
+echo         On the first screen tick "Add python.exe to PATH", click "Customize installation",
+echo         then tick "Install Python for all users" ^(needs administrator rights^).
+echo      2. Then double-click "Install StepCast.bat" again. See README.md, "Install", for details.
 goto :fail
 
 :nowinget_ffmpeg
 echo.
 echo   !! ffmpeg could not be installed automatically.
 echo      1. Download "ffmpeg-release-essentials.zip" from https://www.gyan.dev/ffmpeg/builds/
-echo      2. From its "bin" folder, copy ffmpeg.exe and ffprobe.exe into:
+echo      2. Unzip it, rename the folder to "ffmpeg" and move it to C:\ so that
+echo         C:\ffmpeg\bin\ffmpeg.exe exists ^(needs administrator rights^).
+echo         Or copy ffmpeg.exe and ffprobe.exe from its "bin" folder into:
 echo         %~dp0app\tools\
-echo      3. Then double-click "Install StepCast.bat" again.
+echo      3. Then double-click "Install StepCast.bat" again. See README.md, "Install", for details.
 if not exist "app\tools" mkdir "app\tools"
 goto :fail
 

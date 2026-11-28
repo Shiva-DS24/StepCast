@@ -62,6 +62,9 @@ def find_tool(name):
         cands = [os.path.join(la, "Microsoft", "WinGet", "Links", exe)]
         cands += glob.glob(os.path.join(la, "Microsoft", "WinGet", "Packages", "Gyan.FFmpeg*", "*", "bin", exe))
         cands += glob.glob(os.path.join(os.environ.get("ProgramFiles", r"C:\Program Files"), "ffmpeg*", "bin", exe))
+        pf = os.environ.get("ProgramFiles", r"C:\Program Files")
+        cands += [os.path.join(pf, "WinGet", "Links", exe)]
+        cands += glob.glob(os.path.join(pf, "WinGet", "Packages", "Gyan.FFmpeg*", "*", "bin", exe))
         cands += [os.path.join("C:\\", "ffmpeg", "bin", exe)]
         for p in cands:
             if os.path.exists(p):

@@ -2,6 +2,11 @@
 
 StepCast follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+- Installation guide: README now lists the prerequisites (administrator account, Python 3.10+ installed for all users, FFmpeg) with step-by-step instructions, and a troubleshooting table, including Windows policy error 1625.
+- Installer messages point to the same steps; FFmpeg installed for all users with winget is now found automatically.
+
 ## [1.0.0] – 2026-11-27
 
 First public, open-source release (MIT licence).

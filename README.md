@@ -20,14 +20,56 @@ Teachers can then edit step titles and callouts and record narration for each st
 
 ## Requirements
 
-- **Teachers** (recording, building and editing lessons): **Windows 10 (version 2004 or later) or Windows 11.** StepCast is a Windows application: recording relies on Windows UI Automation and Windows screen-capture features.
+- **Teachers** (recording, building and editing lessons): **Windows 10 (version 2004 or later) or Windows 11**, an administrator account, Python 3.10+ and FFmpeg (see *Install* below). StepCast is a Windows application: recording relies on Windows UI Automation and Windows screen-capture features.
 - **Students** (watching lessons): any device with a modern web browser.
 
 ## Install (Windows, for teachers)
 
-1. Download this repository (green **Code** button → **Download ZIP**) and unzip it.
-2. Double-click **`Install StepCast.bat`**. It installs Python 3.12 and FFmpeg with `winget` if needed, installs the Python libraries, and creates desktop and Start-menu shortcuts.
+### Before you start (prerequisites)
+
+- **A Windows account with administrator rights.** Sign in to Windows with the account the teacher will use, and make sure it is an administrator on that computer. On college or company computers, ask your IT department if you are not sure.
+- **Python 3.10 or newer, installed for all users.** The installer can try to install Python itself, but on managed computers this is often blocked by policy (error 1625), so install it first (step 1 below).
+- **FFmpeg**, which StepCast uses to record and convert the video (step 2 below).
+- **Windows 10 (version 2004 or later) or Windows 11**, and an internet connection during installation.
+
+### Step 1. Install Python (as administrator)
+
+1. Go to https://www.python.org/downloads/windows/ and download the latest **Python 3** installer for Windows (64-bit).
+2. Run the installer. On the first screen:
+   - tick **Add python.exe to PATH**;
+   - click **Customize installation**, then **Next**;
+   - tick **Install Python for all users**, then click **Install**.
+3. Approve the Windows prompt asking for administrator permission.
+4. To check, open **Command Prompt** and type `python --version`. It should show `Python 3.10` or newer.
+
+Alternative for IT staff: in an administrator Command Prompt, run
+`winget install -e --id Python.Python.3.12 --scope machine`
+
+### Step 2. Install FFmpeg (as administrator)
+
+1. Go to https://www.gyan.dev/ffmpeg/builds/ and download **ffmpeg-release-essentials.zip**.
+2. Unzip it and rename the unzipped folder to **`ffmpeg`**.
+3. Move that folder to **`C:\`**, so that this file exists: **`C:\ffmpeg\bin\ffmpeg.exe`**.
+   (Windows will ask for administrator permission to place a folder in `C:\`.)
+
+StepCast looks in `C:\ffmpeg\bin` automatically, so you do not need to change any system settings.
+
+Alternatives: in an administrator Command Prompt, run `winget install -e --id Gyan.FFmpeg`; or copy `ffmpeg.exe` and `ffprobe.exe` from the zip's `bin` folder into StepCast's `app\tools\` folder.
+
+### Step 3. Install StepCast
+
+1. Download this repository (green **Code** button → **Download ZIP**) and unzip it to a folder you keep, for example `Documents\StepCast`.
+2. Signed in as the administrator account from the prerequisites, double-click **`Install StepCast.bat`**. It finds Python and FFmpeg, installs StepCast's Python libraries, and creates desktop and Start-menu shortcuts. This takes 2–5 minutes; keep the window open until it says **StepCast is ready**.
 3. Start StepCast from the desktop icon, or double-click **`Start StepCast.bat`**.
+
+### If something goes wrong
+
+| Message | What to do |
+| --- | --- |
+| `Organization policies are preventing installation` or exit code `1625` | Windows policy blocked the automatic Python install. Close the window, install Python as in step 1, then run `Install StepCast.bat` again. |
+| `Python was not found` | Install Python as in step 1 (with **Add python.exe to PATH** ticked), then run the installer again. |
+| `ffmpeg could not be installed automatically` | Install FFmpeg as in step 2, then run the installer again. |
+| The installer window stays open for a long time with no progress | Close it (or end `winget` in Task Manager), complete steps 1 and 2 by hand, then run `Install StepCast.bat` again. |
 
 The illustrated teacher guide is **`READ ME FIRST.pdf`**.
 
